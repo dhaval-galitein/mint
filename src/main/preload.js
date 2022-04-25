@@ -5,10 +5,10 @@ contextBridge.exposeInMainWorld('electron', {
     myPing() {
       ipcRenderer.send('ipc-example', 'ping');
     },
-    on(channel: string, func: (...args: unknown[]) => void) {
+    on(channel, func) {
       const validChannels = ['ipc-example'];
       if (validChannels.includes(channel)) {
-        const subscription = (_event: IpcRendererEvent, ...args: unknown[]) =>
+        const subscription = (_event, ...args) =>
           func(...args);
         // Deliberately strip event as it includes `sender`
         ipcRenderer.on(channel, subscription);
@@ -18,7 +18,7 @@ contextBridge.exposeInMainWorld('electron', {
 
       return undefined;
     },
-    once(channel: string, func: (...args: unknown[]) => void) {
+    once(channel, func) {
       const validChannels = ['ipc-example'];
       if (validChannels.includes(channel)) {
         // Deliberately strip event as it includes `sender`
