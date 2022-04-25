@@ -10,7 +10,11 @@
 
 # production
 /build
-/release
+/release/app/dist
+/release/build
+
+# !/release/app/package.json
+# /release
 
 # misc
 .DS_Store
