@@ -23,8 +23,9 @@ const TabContainer = ({ children }) => {
       tempTabs.push({ id: uuidv4(), title: `Tab ${count + 1}` });
       setCount((prevCount) => prevCount + 1);
     }
-    setKey(key === id ? tempTabs[0]?.id : key);
+    console.log('tempTabs[0]?.id', tempTabs[0]?.id);
     setTabs([...tempTabs]);
+    setKey(key === id ? tempTabs[0]?.id : key);
   };
 
   return (
@@ -34,17 +35,23 @@ const TabContainer = ({ children }) => {
           <Col sm={12}>
             <Nav variant="pills" style={{ cursor: 'default' }}>
               {tabs.map(({ id, title }) => (
-                <Nav.Item>
-                  <Nav.Link eventKey={id} onClick={() => setKey(id)}>
-                    {title}
-                    <span
-                      onClick={(e) => handleRemoveTab(id)}
-                      style={{ marginLeft: 10, cursor: 'pointer' }}
-                    >
-                      ❌
-                    </span>
-                  </Nav.Link>
-                </Nav.Item>
+                <div
+                  className={`d-flex justify-content-center align-items-center px-3 mx-2 ${
+                    id === key ? 'bg-primary' : ''
+                  }`}
+                >
+                  <Nav.Item key={id}>
+                    <Nav.Link eventKey={id} onClick={() => setKey(id)}>
+                      {title}
+                    </Nav.Link>
+                  </Nav.Item>
+                  <span
+                    onClick={(e) => handleRemoveTab(id)}
+                    style={{ marginLeft: 10, cursor: 'pointer' }}
+                  >
+                    ❌
+                  </span>
+                </div>
               ))}
               <Nav.Item onClick={handleAddTab}>
                 <Nav.Link style={{ cursor: 'pointer' }}>+</Nav.Link>
@@ -52,7 +59,9 @@ const TabContainer = ({ children }) => {
             </Nav>
             <Tab.Content>
               {tabs.map(({ id }) => (
-                <Tab.Pane eventKey={id}>{children}</Tab.Pane>
+                <Tab.Pane key={id} eventKey={id}>
+                  {children}
+                </Tab.Pane>
               ))}
             </Tab.Content>
           </Col>
